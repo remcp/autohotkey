@@ -13,8 +13,12 @@ global lastfile_location := ""
 :?*SEK10:@GM::remcowouters2003@gmail.com
 :?*SEK10:@BM::r.wouters@bm-holding.nl
 
-:?*SEK10:st100*::SELECT TOP 100 * FROM
+#HotIf WinActive("ahk_exe Ssms.exe")
 
+:*SEK10:sthf::SELECT TOP 100 * FROM
+
+
+#HotIf
 ~q::{
     Reset()
 }
@@ -78,8 +82,7 @@ global lastfile_location := ""
 ~m::{
     Reset()
 }
-$i::{
-    Send("i")
+~$i::{
     global i += 1
     if (i == 3){
         Send("{Backspace}{Backspace}{Backspace}í")
@@ -98,8 +101,7 @@ $i::{
     return
 }
 
-$e::{
-    Send("e")
+~$e::{
     global e += 1
     if (e == 3){
         Send("{Backspace}{Backspace}{Backspace}é")
@@ -117,8 +119,7 @@ $e::{
     SetTimer(Reset, -700)
     return
 }
-$u::{
-    Send("u")
+~$u::{
     global u += 1
     if (u == 3){
         Send("{Backspace}{Backspace}{Backspace}ù")
@@ -136,8 +137,7 @@ $u::{
     SetTimer(Reset, -700)
     return
 }
-$a::{
-    Send("a")
+~$a::{
     global a += 1
     if (a == 3){
         Send("{Backspace}{Backspace}{Backspace}à")
@@ -161,8 +161,7 @@ $a::{
     SetTimer(Reset, -700)
     return
 }
-$o::{
-    Send("o")
+~$o::{
     global o += 1
     if (o == 3){
         Send("{Backspace}{Backspace}{Backspace}ò")
@@ -269,7 +268,7 @@ Resetcopyi(){
     ;MsgBox(x1 " " y1 " " x2 " " y2)
     loop{
         found := ImageSearch(&x, &y, x1, y1, x2, y2, "*10 " "C:\Users\remco\autohotkey\images\tabcross.bmp")
-        
+
         if(found == 1){
             notfound := 0
             count := count + 1
