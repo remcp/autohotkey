@@ -7,7 +7,9 @@ global u := 0
 global a := 0
 global o := 0
 global copyi := 0
-:?*SEK10:@@::remcowouters2003@gmail.com
+global lastfile_location := ""
+:?*SEK10:@GM::remcowouters2003@gmail.com
+:?*SEK10:@BM::r.wouters@bm-holding.nl
 
 ~q::{
     Reset()
@@ -245,14 +247,203 @@ Resetcopyi(){
     global copyi := 0
     return
 }
-
+#f::{
+    global lastfile_location
+    path := lastfile_location
+    Run("explorer " path)
+}
 #HotIf WinActive('ahk_exe explorer.exe')
 ^s::{
     path := ControlGetText("A")
+    split := StrSplit(path," ")
+    split.RemoveAt(1)
+    joined := ""
+    for i in split{
+        joined := joined i
+    }
+    global lastfile_location := joined
     A_Clipboard := path
 }
 
 
+
+#hotif WinExist("concept capiciteit manager - Microsoft Visual Studio")
+#P::{
+    WinRestore("concept capiciteit manager - Microsoft Visual Studio")
+    Sleep(500)
+    WinMove(0,0,1000,800,"concept capiciteit manager - Microsoft Visual Studio")
+    
+    Sleep(500)
+    ControlSend("{Ctrl Down}{b} {Ctrl Up}",,"concept capiciteit manager - Microsoft Visual Studio")
+    Sleep(50)
+    WinGetPos(&x,&y,&w,&h,"concept capiciteit manager - Microsoft Visual Studio")
+    Sleep(200)
+    ;bax
+    ControlSend("{Ctrl Down}{Alt Down}{F3} {Ctrl Up}{Alt Up}",,"concept capiciteit manager - Microsoft Visual Studio")
+    Sleep(200)
+    ControlClick("x700 y525","concept capiciteit manager - Microsoft Visual Studio",,"L",2,"NA")
+    Sleep(200)
+    ControlClick("x800 y85","concept capiciteit manager - Microsoft Visual Studio",,"L",,"NA")
+    ; Sleep(50)
+    ; ControlClick("x970 y110","concept capiciteit manager - Microsoft Visual Studio",,"L",,"NA")
+    ; ControlSend("{Enter}",,"concept capiciteit manager - Microsoft Visual Studio")
+    Sleep(2000)
+    ControlClick("x900 y115","concept capiciteit manager - Microsoft Visual Studio",,"L",,"NA")
+    Sleep(100)
+    ControlSend("{Enter}",,"concept capiciteit manager - Microsoft Visual Studio")
+    Sleep(8000)
+    ControlClick("x970 y110","concept capiciteit manager - Microsoft Visual Studio",,"L",,"NA")
+    ControlSend("{Enter}",,"concept capiciteit manager - Microsoft Visual Studio")
+    Sleep(1000)
+    ;laserparts
+    ControlClick(,"concept capiciteit manager - Microsoft Visual Studio",,"L")
+    ControlSend("{Ctrl Down}{Alt Down}{F3} {Ctrl Up}{Alt Up}",,"concept capiciteit manager - Microsoft Visual Studio")
+    Sleep(200)
+    ControlClick("x700 y580","concept capiciteit manager - Microsoft Visual Studio",,"L",2,"NA")
+    Sleep(200)
+    ControlClick("x800 y85","concept capiciteit manager - Microsoft Visual Studio",,"L",,"NA")
+    ; Sleep(50)
+    ; ControlClick("x970 y110","concept capiciteit manager - Microsoft Visual Studio",,"L",,"NA")
+    ; ControlSend("{Enter}",,"concept capiciteit manager - Microsoft Visual Studio")
+    Sleep(2000)
+    ControlClick("x900 y115","concept capiciteit manager - Microsoft Visual Studio",,"L",,"NA")
+    Sleep(100)
+    ControlSend("{Enter}",,"concept capiciteit manager - Microsoft Visual Studio")
+    Sleep(8000)
+    ControlClick("x970 y110","concept capiciteit manager - Microsoft Visual Studio",,"L",,"NA")
+    ControlSend("{Enter}",,"concept capiciteit manager - Microsoft Visual Studio")
+    Sleep(1000)
+    ;qfin
+    ControlClick(,"concept capiciteit manager - Microsoft Visual Studio",,"L")
+    ControlSend("{Ctrl Down}{Alt Down}{F3} {Ctrl Up}{Alt Up}",,"concept capiciteit manager - Microsoft Visual Studio")
+    Sleep(200)
+    ControlClick("x700 y655","concept capiciteit manager - Microsoft Visual Studio",,"L",2,"NA")
+    Sleep(200)
+    ControlClick("x800 y85","concept capiciteit manager - Microsoft Visual Studio",,"L",,"NA")
+    ; Sleep(50)
+    ; ControlClick("x970 y110","concept capiciteit manager - Microsoft Visual Studio",,"L",,"NA")
+    ; ControlSend("{Enter}",,"concept capiciteit manager - Microsoft Visual Studio")
+    Sleep(2000)
+    ControlClick("x900 y115","concept capiciteit manager - Microsoft Visual Studio",,"L",,"NA")
+    Sleep(100)
+    ControlSend("{Enter}",,"concept capiciteit manager - Microsoft Visual Studio")
+    Sleep(8000)
+    ControlClick("x970 y110","concept capiciteit manager - Microsoft Visual Studio",,"L",,"NA")
+    ControlSend("{Enter}",,"concept capiciteit manager - Microsoft Visual Studio")
+    Sleep(1000)
+    ;rvs
+    ControlClick(,"concept capiciteit manager - Microsoft Visual Studio",,"L")
+    ControlSend("{Ctrl Down}{Alt Down}{F3} {Ctrl Up}{Alt Up}",,"concept capiciteit manager - Microsoft Visual Studio")
+    Sleep(200)
+    ControlClick("x700 y680","concept capiciteit manager - Microsoft Visual Studio",,"L",2,"NA")
+    Sleep(200)
+    ControlClick("x800 y85","concept capiciteit manager - Microsoft Visual Studio",,"L",,"NA")
+    ; Sleep(50)
+    ; ControlClick("x970 y110","concept capiciteit manager - Microsoft Visual Studio",,"L",,"NA")
+    ; ControlSend("{Enter}",,"concept capiciteit manager - Microsoft Visual Studio")
+    Sleep(2000)
+    ControlClick("x900 y115","concept capiciteit manager - Microsoft Visual Studio",,"L",,"NA")
+    Sleep(100)
+    ControlSend("{Enter}",,"concept capiciteit manager - Microsoft Visual Studio")
+    Sleep(8000)
+    ControlClick("x970 y110","concept capiciteit manager - Microsoft Visual Studio",,"L",,"NA")
+    ControlSend("{Enter}",,"concept capiciteit manager - Microsoft Visual Studio")
+    Sleep(10000)
+    Sleep(50)
+    ControlClick(,"concept capiciteit manager - Microsoft Visual Studio",,"L")
+
+    ;publishing
+    ;bax
+    ControlClick(,"concept capiciteit manager - Microsoft Visual Studio",,"L")
+    ControlSend("{Ctrl Down}{Alt Down}{F3} {Ctrl Up}{Alt Up}",,"concept capiciteit manager - Microsoft Visual Studio")
+    Sleep(200)
+    ControlClick("x700 y525","concept capiciteit manager - Microsoft Visual Studio",,"L",,"NA")
+    ControlSend("{Enter}",,"concept capiciteit manager - Microsoft Visual Studio")
+    Sleep(200)
+    ControlClick(,"concept capiciteit manager - Microsoft Visual Studio",,"L")
+    Sleep(50)
+    ControlClick(,"concept capiciteit manager - Microsoft Visual Studio",,"L")
+    Sleep(50)
+    ControlClick(,"concept capiciteit manager - Microsoft Visual Studio",,"L")
+    Sleep(50)
+    ControlClick("x450 y125","concept capiciteit manager - Microsoft Visual Studio",,"L",,"NA")
+    Sleep(200)
+    ControlClick("x450 y150","concept capiciteit manager - Microsoft Visual Studio",,"L",,"NA")
+    Sleep(700)
+    ControlClick("x700 y130","concept capiciteit manager - Microsoft Visual Studio",,"L",,"NA")
+    ControlSend("{Enter}",,"concept capiciteit manager - Microsoft Visual Studio")
+    Sleep(15000)
+
+    ;laserparts
+    ControlClick(,"concept capiciteit manager - Microsoft Visual Studio",,"L")
+    ControlSend("{Ctrl Down}{Alt Down}{F3} {Ctrl Up}{Alt Up}",,"concept capiciteit manager - Microsoft Visual Studio")
+    Sleep(200)
+    ControlClick("x700 y580","concept capiciteit manager - Microsoft Visual Studio",,"L",,"NA")
+    ControlSend("{Enter}",,"concept capiciteit manager - Microsoft Visual Studio")
+    Sleep(200)
+    ControlClick(,"concept capiciteit manager - Microsoft Visual Studio",,"L")
+    Sleep(50)
+    ControlClick(,"concept capiciteit manager - Microsoft Visual Studio",,"L")
+    Sleep(50)
+    ControlClick(,"concept capiciteit manager - Microsoft Visual Studio",,"L")
+    Sleep(50)
+    ControlClick("x450 y125","concept capiciteit manager - Microsoft Visual Studio",,"L",,"NA")
+    Sleep(200)
+    ControlClick("x450 y225","concept capiciteit manager - Microsoft Visual Studio",,"L",,"NA")
+    Sleep(700)
+    ControlClick("x700 y130","concept capiciteit manager - Microsoft Visual Studio",,"L",,"NA")
+    ControlSend("{Enter}",,"concept capiciteit manager - Microsoft Visual Studio")
+    Sleep(15000)
+
+    ;qfin
+    ControlClick(,"concept capiciteit manager - Microsoft Visual Studio",,"L")
+    ControlSend("{Ctrl Down}{Alt Down}{F3} {Ctrl Up}{Alt Up}",,"concept capiciteit manager - Microsoft Visual Studio")
+    Sleep(200)
+    ControlClick("x700 y655","concept capiciteit manager - Microsoft Visual Studio",,"L",,"NA")
+    ControlSend("{Enter}",,"concept capiciteit manager - Microsoft Visual Studio")
+    Sleep(200)
+    ControlClick(,"concept capiciteit manager - Microsoft Visual Studio",,"L")
+    Sleep(50)
+    ControlClick(,"concept capiciteit manager - Microsoft Visual Studio",,"L")
+    Sleep(50)
+    ControlClick(,"concept capiciteit manager - Microsoft Visual Studio",,"L")
+    Sleep(50)
+    ControlClick("x450 y125","concept capiciteit manager - Microsoft Visual Studio",,"L",,"NA")
+    Sleep(200)
+    ControlClick("x450 y173","concept capiciteit manager - Microsoft Visual Studio",,"L",,"NA")
+    Sleep(700)
+    ControlClick("x700 y130","concept capiciteit manager - Microsoft Visual Studio",,"L",,"NA")
+    ControlSend("{Enter}",,"concept capiciteit manager - Microsoft Visual Studio")
+    Sleep(15000)
+
+    ;rvs
+    ControlClick(,"concept capiciteit manager - Microsoft Visual Studio",,"L")
+    ControlSend("{Ctrl Down}{Alt Down}{F3} {Ctrl Up}{Alt Up}",,"concept capiciteit manager - Microsoft Visual Studio")
+    Sleep(200)
+    ControlClick("x700 y680","concept capiciteit manager - Microsoft Visual Studio",,"L",,"NA")
+    ControlSend("{Enter}",,"concept capiciteit manager - Microsoft Visual Studio")
+    Sleep(200)
+    ControlClick(,"concept capiciteit manager - Microsoft Visual Studio",,"L")
+    Sleep(50)
+    ControlClick(,"concept capiciteit manager - Microsoft Visual Studio",,"L")
+    Sleep(50)
+    ControlClick(,"concept capiciteit manager - Microsoft Visual Studio",,"L")
+    Sleep(50)
+    ControlClick("x450 y125","concept capiciteit manager - Microsoft Visual Studio",,"L",,"NA")
+    Sleep(200)
+    ControlClick("x450 y200","concept capiciteit manager - Microsoft Visual Studio",,"L",,"NA")
+    Sleep(700)
+    ControlClick("x700 y130","concept capiciteit manager - Microsoft Visual Studio",,"L",,"NA")
+    ControlSend("{Enter}",,"concept capiciteit manager - Microsoft Visual Studio")
+    Sleep(15000)
+    ControlClick(,"concept capiciteit manager - Microsoft Visual Studio",,"L")
+    ControlSend("{Ctrl Down}{Alt Down}{F3} {Ctrl Up}{Alt Up}",,"concept capiciteit manager - Microsoft Visual Studio")
+    Sleep(200)
+    ControlClick("x700 y555","concept capiciteit manager - Microsoft Visual Studio",,"L",,"NA")
+    ControlSend("{Enter}",,"concept capiciteit manager - Microsoft Visual Studio")
+}
 #HotIf
 
-!Esc::ExitApp  
+
+^Esc::Reload
+!Esc::ExitApp
