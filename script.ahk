@@ -1,6 +1,8 @@
 #Requires AutoHotkey v2.0
 KeyHistory 100
 
+CoordMode('Pixel', 'Window')
+
 global i := 0
 global e := 0
 global u := 0
@@ -254,8 +256,41 @@ Resetcopyi(){
     path := lastfile_location
     Run("explorer " path)
 }
+#h::{
+    Run("explorer C:\Users\remco\autohotkey")
+}
+!u::{
+    WinGetPos(,,&x2,&y2,"A")
+    x1 := 0
+    y1 := 0
+    count := 0
+    found := 1
+    notfound := 0
+    ;MsgBox(x1 " " y1 " " x2 " " y2)
+    loop{
+        found := ImageSearch(&x, &y, x1, y1, x2, y2, "*10 " "C:\Users\remco\autohotkey\images\tabcross.bmp")
+        
+        if(found == 1){
+            notfound := 0
+            count := count + 1
+            x1 := x + 1
+            y1 := y
+        }
+        if(found == 0){
+            x1 := 0
+            y1 := y1 +1
+            notfound := notfound + 1
+        }
 
-
+        if(y1 >= y2){
+            break
+        }
+        if(notfound > 1){
+            break
+        }
+    }
+    MsgBox(count)
+}
 #HotIf WinActive('ahk_exe explorer.exe')
 ^s::{
     path := ControlGetText("A")
@@ -270,15 +305,16 @@ Resetcopyi(){
 }
 
 
+
 #hotif WinExist("concept capiciteit manager - Microsoft Visual Studio")
 
 #P::{
     id := WinGetPID("concept capiciteit manager - Microsoft Visual Studio")
-    WinGetID("concept capiciteit manager - Microsoft Visual Studio")
-    WinRestore("concept capiciteit manager - Microsoft Visual Studio")
+    ;WinGetID("concept capiciteit manager - Microsoft Visual Studio")
+    ;WinRestore("concept capiciteit manager - Microsoft Visual Studio")
     Sleep(500)
-    WinMove(0,0,1000,800,"concept capiciteit manager - Microsoft Visual Studio")
-    
+    ;WinMove(0,0,1000,800,"concept capiciteit manager - Microsoft Visual Studio")
+    WinActivate("ahk_class WorkerW ahk_exe explorer.exe")
     Sleep(500)
     ControlSend("{Ctrl Down}{b} {Ctrl Up}",,"concept capiciteit manager - Microsoft Visual Studio")
     Sleep(50)
