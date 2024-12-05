@@ -1,8 +1,10 @@
-#Requires AutoHotkey v2.0
-KeyHistory 100
+global mx1 := 0
+global my1 := 0
+global mx2 := 0
+global my2 := 0
+global set := 0
 
-CoordMode('Pixel', 'Window')
-
+global printcount := 0
 global i := 0
 global e := 0
 global u := 0
@@ -10,6 +12,19 @@ global a := 0
 global o := 0
 global copyi := 0
 global lastfile_location := ""
+MyGui := Gui("+ Resize + ToolWindow")
+
+
+#Requires AutoHotkey v2.0
+KeyHistory 100
+#MaxThreadsPerHotkey 2
+
+#Include ..\autohotkey\screenshots\gdip.ahk
+CoordMode("Pixel", "Screen")
+CoordMode("Mouse", "Screen")
+
+
+
 :?*SEK10:@GM::remcowouters2003@gmail.com
 :?*SEK10:@BM::r.wouters@bm-holding.nl
 
@@ -98,6 +113,7 @@ global lastfile_location := ""
         i := 0
     }
     SetTimer(Reset, -700)
+    
     return
 }
 
@@ -201,17 +217,19 @@ Reset(){
     try{
         WinSetAlwaysOnTop -1, "A"
         WinTransDegree := WinGetTransparent("A")
-        If (WinTransDegree = 100){
+        if(WinTransDegree == ""){
+            WinSetTransparent 50, "A"
+        }
+        else If (WinTransDegree < 255){
             WinSetTransparent "Off", "A"
         }
-        else{
-            WinSetTransparent 100, "A"
-        }
+        
     }
     catch{
         WinSetAlwaysOnTop 0, "A"
         MsgBox("failed to set transparent")
     }
+    
 }
 
 #Y::
@@ -290,6 +308,36 @@ Resetcopyi(){
     }
     MsgBox(count)
 }
+
+
+#z::{
+    global printcount
+    global mx1
+    global my1
+    global mx2
+    global my2
+
+    printcount += 1
+
+    switch(printcount){
+        case 1:
+            MouseGetPos(&x, &y)
+            mx1 := x
+            my1 := y
+        case 2:
+            MouseGetPos(&x, &y)
+            mx2 := x
+            my2 := y
+        case 3:
+            SetTimer(screenshot, 5000)
+        case 4:
+            printcount := 0
+            SetTimer(screenshot,0)
+            MsgBox("stopped screencapture")
+    }
+}
+
+
 #HotIf WinActive('ahk_exe explorer.exe')
 ^s::{
     path := ControlGetText("A")
@@ -303,18 +351,35 @@ Resetcopyi(){
     A_Clipboard := path
 }
 
+#HotIf WinActive("Clash Royale ahk_class CROSVM_1")
+0::{
+    WinMove(0,0,297,539)
+}
 
+1::{
+    ControlClick("x100 y450","Clash Royale ahk_class CROSVM_1",,"L",1,"NA")
+}
+2::{
+    ControlClick("x150 y450","Clash Royale ahk_class CROSVM_1",,"L",1,"NA")
+}
+3::{
+    ControlClick("x200 y450","Clash Royale ahk_class CROSVM_1",,"L",1,"NA")
+}
+4::{
+    ControlClick("x250 y450","Clash Royale ahk_class CROSVM_1",,"L",1,"NA")
+}
 
 #hotif WinExist("concept capiciteit manager - Microsoft Visual Studio")
 
 #P::{
+    WinGetPos(&x,&y,&w,&h,"concept capiciteit manager - Microsoft Visual Studio")
     id := WinGetPID("concept capiciteit manager - Microsoft Visual Studio")
     ;WinGetID("concept capiciteit manager - Microsoft Visual Studio")
-    ;WinRestore("concept capiciteit manager - Microsoft Visual Studio")
+    WinRestore("concept capiciteit manager - Microsoft Visual Studio")
     Sleep(500)
-    ;WinMove(0,0,1000,800,"concept capiciteit manager - Microsoft Visual Studio")
+    WinMove(x,y,1000,800,"concept capiciteit manager - Microsoft Visual Studio")
     WinActivate("ahk_class WorkerW ahk_exe explorer.exe")
-    Sleep(500)
+    Sleep(3000)
     ControlSend("{Ctrl Down}{b} {Ctrl Up}",,"concept capiciteit manager - Microsoft Visual Studio")
     Sleep(50)
     WinGetPos(&x,&y,&w,&h,"concept capiciteit manager - Microsoft Visual Studio")
@@ -418,9 +483,15 @@ Resetcopyi(){
     ControlSend("{Up}",,"concept capiciteit manager - Microsoft Visual Studio")
     Sleep(200)
     ControlSend("{Enter}",,"concept capiciteit manager - Microsoft Visual Studio")
-    Sleep(2000)
-    Sleep(20000)
-
+    Sleep(4000)
+    ;Sleep(20000)
+    loop{
+        check := PixelSearch(&check1, &check2, x + 300, y + 230, x + w - 300, y + h - 500, 0x7EE07E,10)
+        if(check == 1){
+            Sleep(2000)
+            break
+        }
+    }
     ; ;laserparts
     ControlSend("{Ctrl Down}{Alt Down}{F3} {Ctrl Up}{Alt Up}",,"concept capiciteit manager - Microsoft Visual Studio")
     Sleep(400)
@@ -442,8 +513,15 @@ Resetcopyi(){
     ControlSend("{Down}",,"concept capiciteit manager - Microsoft Visual Studio")
     Sleep(200)
     ControlSend("{Enter}",,"concept capiciteit manager - Microsoft Visual Studio")
-    Sleep(2000)
-    Sleep(20000)
+    Sleep(4000)
+    ;Sleep(20000)
+    loop{
+        check := PixelSearch(&check1, &check2, x + 300, y + 230, x + w - 300, y + h - 500, 0x7EE07E,10)
+        if(check == 1){
+            Sleep(2000)
+            break
+        }
+    }
 
     ; ;qfin
     ControlSend("{Ctrl Down}{Alt Down}{F3} {Ctrl Up}{Alt Up}",,"concept capiciteit manager - Microsoft Visual Studio")
@@ -464,9 +542,16 @@ Resetcopyi(){
     ControlSend("{Up}",,"concept capiciteit manager - Microsoft Visual Studio")
     Sleep(200)
     ControlSend("{Enter}",,"concept capiciteit manager - Microsoft Visual Studio")
-    Sleep(2000)
-    Sleep(20000)
-
+    Sleep(4000)
+    ;Sleep(20000)
+    loop{
+        check := PixelSearch(&check1, &check2, x + 300, y + 230, x + w - 300, y + h - 500, 0x7EE07E,10)
+        if(check == 1){
+            Sleep(2000)
+            break
+        }
+    }
+            
     ; ;rvs
     ControlSend("{Ctrl Down}{Alt Down}{F3} {Ctrl Up}{Alt Up}",,"concept capiciteit manager - Microsoft Visual Studio")
     Sleep(400)
@@ -484,8 +569,15 @@ Resetcopyi(){
     ControlSend("{Down}",,"concept capiciteit manager - Microsoft Visual Studio")
     Sleep(200)
     ControlSend("{Enter}",,"concept capiciteit manager - Microsoft Visual Studio")
-    Sleep(2000)
-    Sleep(20000)
+    Sleep(4000)
+    ;Sleep(20000)
+    loop{
+        check := PixelSearch(&check1, &check2, x + 300, y + 230, x + w - 300, y + h - 500, 0x7EE07E,10)
+        if(check == 1){
+            Sleep(2000)
+            break
+        }
+    }
 
 
     ControlSend("{Ctrl Down}{Alt Down}{F3} {Ctrl Up}{Alt Up}",,"concept capiciteit manager - Microsoft Visual Studio")
@@ -495,6 +587,33 @@ Resetcopyi(){
     ControlSend("{Enter}",,"ahk_exe devenv.exe",,"concept capiciteit manager - Microsoft Visual Studio")
 }
 #HotIf
+
+screenshot(){
+    global mx1
+    global my1
+    global mx2
+    global my2
+    global set
+	pToken := Gdip_Startup() ;Start using Gdip
+	ClipBitmap := Gdip_BitmapFromScreen( mx1 "|" my1 "|" mx2 - mx1 "|" my2 - my1 ) ;Create a bitmap of the screen.
+	
+	Gdip_SaveBitmapToFile( ClipBitmap , "C:\Users\remco\autohotkey\screenshots\bitmaps\autoscreencap" ".png" , 100 ) ; Save the bitmap to file
+	Gdip_DisposeImage( ClipBitmap ) ;Dispose of the bitmap to free memory.
+	Gdip_Shutdown( pToken ) ;Turn off gdip
+
+    my_picturefile := "C:\Users\remco\autohotkey\screenshots\bitmaps\"
+    FileInstall(my_picturefile "autoscreencap.png", my_picturefile "tempscreencap.png", 1)
+    if(set == 1){
+        MyGui['Pic'].Value := my_picturefile "tempscreencap.png"
+    }else{
+        MyGui.Add("Picture", "vPic", my_picturefile "tempscreencap.png")
+        set := 1
+    }
+    MyGui.Show("AutoSize NoActivate")
+
+
+	return
+}
 
 
 ^Esc::Reload
