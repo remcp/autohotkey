@@ -642,6 +642,7 @@ screenshot(){
     Gdip_SaveBitmapToFile(bitmap, "C:\Users\remco\autohotkey\screenshots\bitmaps\windowshot.bmp", 100)
     FileInstall("C:\Users\remco\autohotkey\screenshots\bitmaps\" "windowshot.bmp", "C:\Users\remco\autohotkey\screenshots\bitmaps\" "winsho.bmp", 1)
     Gdip_DisposeImage(bitmap)
+    Gdip_DisposeImage( croppedBitmap )
 
 	DllCall("gdi32.dll\DeleteObject", "Ptr", hbm)
     DllCall("gdi32.dll\DeleteDC", "Ptr", hdcMem)
