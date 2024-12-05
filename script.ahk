@@ -333,7 +333,7 @@ Resetcopyi(){
             mx2 := x
             my2 := y
         case 3:
-            SetTimer(screenshot, 2000)
+            SetTimer(screenshot, 300)
         case 4:
             printcount := 0
             SetTimer(screenshot,0)
@@ -343,9 +343,13 @@ Resetcopyi(){
 
 #a::
 {
-    WinShow("concept capiciteit manager - Microsoft Visual Studio")
     WinSetAlwaysOnTop -1, MyGui
     
+}
+
+#q::
+{
+    WinActivate(MyGui)
 }
 
 #HotIf WinActive('ahk_exe explorer.exe')
@@ -645,20 +649,21 @@ screenshot(){
         0 "," 0 "|" mx2 - mx1 "," 0 "|" 0 "," my2 - my1, ; Destination rectangle
         mx1, my1, mx2 - mx1, my2 - my1, ; Source rectangle
     )
-    Gdip_SaveBitmapToFile(croppedBitmap, "C:\Users\remco\autohotkey\screenshots\bitmaps\cropped.bmp", 100)
-    Gdip_SaveBitmapToFile(bitmap, "C:\Users\remco\autohotkey\screenshots\bitmaps\windowshot.bmp", 100)
-    FileInstall("C:\Users\remco\autohotkey\screenshots\bitmaps\" "windowshot.bmp", "C:\Users\remco\autohotkey\screenshots\bitmaps\" "winsho.bmp", 1)
+    Gdip_SaveBitmapToFile(croppedBitmap, "C:\Users\remco\Documents\autohotkey\autohotkey\screenshots\bitmaps\cropped.bmp", 100)
+    Gdip_SaveBitmapToFile(bitmap, "C:\Users\remco\Documents\autohotkey\autohotkey\screenshots\bitmaps\windowshot.bmp", 100)
+    FileInstall("C:\Users\remco\Documents\autohotkey\autohotkey\screenshots\bitmaps\" "windowshot.bmp", "C:\Users\remco\Documents\autohotkey\autohotkey\screenshots\bitmaps\" "winsho.bmp", 1)
     Gdip_DisposeImage(bitmap)
     Gdip_DisposeImage( croppedBitmap )
+    Gdip_DeleteGraphics(graphics)
 
 	DllCall("gdi32.dll\DeleteObject", "Ptr", hbm)
     DllCall("gdi32.dll\DeleteDC", "Ptr", hdcMem)
     DllCall("ReleaseDC", "Ptr", hwnd, "Ptr", hdc)
-	Gdip_SaveBitmapToFile( ClipBitmap , "C:\Users\remco\autohotkey\screenshots\bitmaps\autoscreencap" ".bmp" , 255) ; Save the bitmap to file
+	Gdip_SaveBitmapToFile( ClipBitmap , "C:\Users\remco\Documents\autohotkey\autohotkey\screenshots\bitmaps\autoscreencap" ".bmp" , 255) ; Save the bitmap to file
 	Gdip_DisposeImage( ClipBitmap ) ;Dispose of the bitmap to free memory.
 	Gdip_Shutdown( pToken ) ;Turn off gdip
 
-    my_picturefile := "C:\Users\remco\autohotkey\screenshots\bitmaps\"
+    my_picturefile := "C:\Users\remco\Documents\autohotkey\autohotkey\screenshots\bitmaps\"
     FileInstall(my_picturefile "autoscreencap.bmp", my_picturefile "tempscreencap.bmp", 1)
     if(set == 1){
         MyGui['Pic'].Value := my_picturefile "cropped.bmp"
