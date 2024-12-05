@@ -3,6 +3,7 @@ global my1 := 0
 global mx2 := 0
 global my2 := 0
 global set := 0
+global hwnd
 
 global printcount := 0
 global i := 0
@@ -229,7 +230,6 @@ Reset(){
         WinSetAlwaysOnTop 0, "A"
         MsgBox("failed to set transparent")
     }
-    
 }
 
 #Y::
@@ -316,11 +316,15 @@ Resetcopyi(){
     global my1
     global mx2
     global my2
-
+    global hwnd
+    global screenshotexe
+    
     printcount += 1
 
     switch(printcount){
         case 1:
+            screenshotexe := WinGetProcessName("A")
+            hwnd := WinExist("ahk_exe " screenshotexe)
             MouseGetPos(&x, &y)
             mx1 := x
             my1 := y
@@ -329,7 +333,7 @@ Resetcopyi(){
             mx2 := x
             my2 := y
         case 3:
-            SetTimer(screenshot, 5000)
+            SetTimer(screenshot, 2000)
         case 4:
             printcount := 0
             SetTimer(screenshot,0)
@@ -337,6 +341,11 @@ Resetcopyi(){
     }
 }
 
+#a::
+{
+    WinSetAlwaysOnTop -1, MyGui
+    
+}
 
 #HotIf WinActive('ahk_exe explorer.exe')
 ^s::{
@@ -589,24 +598,64 @@ Resetcopyi(){
 #HotIf
 
 screenshot(){
+    
     global mx1
     global my1
     global mx2
     global my2
     global set
+    global hwnd
+    global screenshotexe
+
+    WinGetPos(,,&w,&h,"ahk_exe " screenshotexe)
+
 	pToken := Gdip_Startup() ;Start using Gdip
 	ClipBitmap := Gdip_BitmapFromScreen( mx1 "|" my1 "|" mx2 - mx1 "|" my2 - my1 ) ;Create a bitmap of the screen.
-	
-	Gdip_SaveBitmapToFile( ClipBitmap , "C:\Users\remco\autohotkey\screenshots\bitmaps\autoscreencap" ".png" , 100 ) ; Save the bitmap to file
+
+    hdc := DllCall("GetDC", "Ptr", hwnd, 'ptr')
+    hdcMem := DllCall("gdi32.dll\CreateCompatibleDC", "Ptr", hdc, "Ptr")
+    hbm := DllCall("gdi32.dll\CreateCompatibleBitmap", "Ptr", hdc, "Int", w, "Int", h, "Ptr")
+    DllCall("gdi32.dll\SelectObject", "Ptr", hdcMem, "Ptr", hbm)
+    
+    ; Use PrintWindow to capture the window content
+    result := DllCall("PrintWindow", "Ptr", hwnd, "Ptr", hdcMem, "UInt", 0x2)
+    if !result {
+        MsgBox "PrintWindow failed!"
+        DllCall("gdi32.dll\DeleteObject", "Ptr", hbm)
+        DllCall("gdi32.dll\DeleteDC", "Ptr", hdcMem)
+        DllCall("ReleaseDC", "Ptr", hwnd, "Ptr", hdc)
+        return
+    }
+    
+    bitmap := Gdip_CreateBitmapFromHBITMAP(hbm)
+    
+    croppedBitmap := Gdip_CreateBitmap(mx2 - mx1, my2 - my1)
+    graphics := Gdip_GraphicsFromImage(croppedBitmap)
+
+    Gdip_DrawImagePointsRect(
+        graphics,        ; Graphics object for the new bitmap
+        bitmap,          ; Source bitmap
+        0 "," 0 "|" mx2 - mx1 "," 0 "|" 0 "," my2 - my1, ; Destination rectangle
+        mx1, my1, mx2 - mx1, my2 - my1, ; Source rectangle
+    )
+    Gdip_SaveBitmapToFile(croppedBitmap, "C:\Users\remco\autohotkey\screenshots\bitmaps\cropped.bmp", 100)
+    Gdip_SaveBitmapToFile(bitmap, "C:\Users\remco\autohotkey\screenshots\bitmaps\windowshot.bmp", 100)
+    FileInstall("C:\Users\remco\autohotkey\screenshots\bitmaps\" "windowshot.bmp", "C:\Users\remco\autohotkey\screenshots\bitmaps\" "winsho.bmp", 1)
+    Gdip_DisposeImage(bitmap)
+
+	DllCall("gdi32.dll\DeleteObject", "Ptr", hbm)
+    DllCall("gdi32.dll\DeleteDC", "Ptr", hdcMem)
+    DllCall("ReleaseDC", "Ptr", hwnd, "Ptr", hdc)
+	Gdip_SaveBitmapToFile( ClipBitmap , "C:\Users\remco\autohotkey\screenshots\bitmaps\autoscreencap" ".bmp" , 255) ; Save the bitmap to file
 	Gdip_DisposeImage( ClipBitmap ) ;Dispose of the bitmap to free memory.
 	Gdip_Shutdown( pToken ) ;Turn off gdip
 
     my_picturefile := "C:\Users\remco\autohotkey\screenshots\bitmaps\"
-    FileInstall(my_picturefile "autoscreencap.png", my_picturefile "tempscreencap.png", 1)
+    FileInstall(my_picturefile "autoscreencap.bmp", my_picturefile "tempscreencap.bmp", 1)
     if(set == 1){
-        MyGui['Pic'].Value := my_picturefile "tempscreencap.png"
+        MyGui['Pic'].Value := my_picturefile "cropped.bmp"
     }else{
-        MyGui.Add("Picture", "vPic", my_picturefile "tempscreencap.png")
+        MyGui.Add("Picture", "vPic", my_picturefile "cropped.bmp")
         set := 1
     }
     MyGui.Show("AutoSize NoActivate")
