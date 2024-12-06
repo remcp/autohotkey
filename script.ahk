@@ -212,7 +212,22 @@ Reset(){
 {
     Run("https://github.com/remcp?tab=repositories")
 }
-
+#r::
+{
+    try{
+        WinTransDegree := WinGetTransparent("A")
+        if(WinTransDegree == ""){
+            WinSetTransparent 5, "A"
+        }
+        else If (WinTransDegree < 255){
+            WinSetTransparent "Off", "A"
+        }
+        
+    }
+    catch{
+        MsgBox("failed to set transparent")
+    }
+}
 #T::
 {
     try{
@@ -333,7 +348,7 @@ Resetcopyi(){
             mx2 := x
             my2 := y
         case 3:
-            SetTimer(screenshot, 300)
+            SetTimer(screenshot, 50)
         case 4:
             printcount := 0
             SetTimer(screenshot,0)
