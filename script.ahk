@@ -22,7 +22,7 @@ KeyHistory 100
 
 #Include ..\autohotkey\screenshots\gdip.ahk
 CoordMode("Pixel", "Screen")
-CoordMode("Mouse", "Screen")
+CoordMode("Mouse", "Window")
 
 
 
@@ -348,7 +348,7 @@ Resetcopyi(){
             mx2 := x
             my2 := y
         case 3:
-            SetTimer(screenshot, 50)
+            SetTimer(screenshot, 30)
         case 4:
             printcount := 0
             SetTimer(screenshot,0)
@@ -356,6 +356,7 @@ Resetcopyi(){
     }
 }
 
+#hotif WinExist(MyGui)
 #a::
 {
     WinSetAlwaysOnTop -1, MyGui
@@ -365,6 +366,33 @@ Resetcopyi(){
 #q::
 {
     WinActivate(MyGui)
+}
+
+#x::
+{
+    WinMinimize(MyGui)
+}
+#d::{
+    WinRestore(MyGui)
+}
+#hotif WinActive("ahk_class CROSVM_1")
+1::
+{
+    ControlClick("x150 y650", "Clash Royale ahk_exe crosvm.exe",,"L",1,"NA")
+    
+}
+
+2::
+{
+    ControlClick("x200 y650", "Clash Royale ahk_exe crosvm.exe",,"L",1,"NA")
+}
+
+3::
+{
+    ControlClick("x300 y650", "Clash Royale ahk_exe crosvm.exe",,"L",1,"NA")
+}
+4::{
+    ControlClick("x390 y650", "Clash Royale ahk_exe crosvm.exe",,"L",1,"NA")
 }
 
 #HotIf WinActive('ahk_exe explorer.exe')
@@ -380,23 +408,6 @@ Resetcopyi(){
     A_Clipboard := path
 }
 
-#HotIf WinActive("Clash Royale ahk_class CROSVM_1")
-0::{
-    WinMove(0,0,297,539)
-}
-
-1::{
-    ControlClick("x100 y450","Clash Royale ahk_class CROSVM_1",,"L",1,"NA")
-}
-2::{
-    ControlClick("x150 y450","Clash Royale ahk_class CROSVM_1",,"L",1,"NA")
-}
-3::{
-    ControlClick("x200 y450","Clash Royale ahk_class CROSVM_1",,"L",1,"NA")
-}
-4::{
-    ControlClick("x250 y450","Clash Royale ahk_class CROSVM_1",,"L",1,"NA")
-}
 
 #hotif WinExist("concept capiciteit manager - Microsoft Visual Studio")
 
@@ -624,7 +635,8 @@ Resetcopyi(){
 #HotIf
 
 screenshot(){
-    
+    my_picturefile := "C:\Users\remco\autohotkey\screenshots\bitmaps"
+
     global mx1
     global my1
     global mx2
@@ -636,14 +648,12 @@ screenshot(){
     WinGetPos(,,&w,&h,"ahk_exe " screenshotexe)
 
 	pToken := Gdip_Startup() ;Start using Gdip
-	;ClipBitmap := Gdip_BitmapFromScreen( mx1 "|" my1 "|" mx2 - mx1 "|" my2 - my1 ) ;Create a bitmap of the screen.
 
     hdc := DllCall("GetDC", "Ptr", hwnd, 'ptr')
     hdcMem := DllCall("gdi32.dll\CreateCompatibleDC", "Ptr", hdc, "Ptr")
     hbm := DllCall("gdi32.dll\CreateCompatibleBitmap", "Ptr", hdc, "Int", w, "Int", h, "Ptr")
     DllCall("gdi32.dll\SelectObject", "Ptr", hdcMem, "Ptr", hbm)
     
-    ; Use PrintWindow to capture the window content
     result := DllCall("PrintWindow", "Ptr", hwnd, "Ptr", hdcMem, "UInt", 0x2)
     if !result {
         MsgBox "PrintWindow failed!"
@@ -664,9 +674,17 @@ screenshot(){
         0 "," 0 "|" mx2 - mx1 "," 0 "|" 0 "," my2 - my1, ; Destination rectangle
         mx1, my1, mx2 - mx1, my2 - my1, ; Source rectangle
     )
-    Gdip_SaveBitmapToFile(croppedBitmap, "C:\Users\remco\Documents\autohotkey\autohotkey\screenshots\bitmaps\cropped.bmp", 100)
-    ;Gdip_SaveBitmapToFile(bitmap, "C:\Users\remco\Documents\autohotkey\autohotkey\screenshots\bitmaps\windowshot.bmp", 100)
-    ;FileInstall("C:\Users\remco\Documents\autohotkey\autohotkey\screenshots\bitmaps\" "windowshot.bmp", "C:\Users\remco\Documents\autohotkey\autohotkey\screenshots\bitmaps\" "winsho.bmp", 1)
+    memimage := Gdip_CreateHBITMAPFromBitmap(croppedBitmap)
+
+    if(set == 1){
+        Sleep(10)
+        
+         MyGui['Pic'].Value := "HBITMAP:" memimage
+    }else{
+        MyGui.Add("Picture", "vPic", "HBITMAP:" memimage)
+        MyGui.Show("AutoSize NoActivate")
+        set := 1
+    }
     Gdip_DisposeImage(bitmap)
     Gdip_DisposeImage( croppedBitmap )
     Gdip_DeleteGraphics(graphics)
@@ -674,20 +692,7 @@ screenshot(){
 	DllCall("gdi32.dll\DeleteObject", "Ptr", hbm)
     DllCall("gdi32.dll\DeleteDC", "Ptr", hdcMem)
     DllCall("ReleaseDC", "Ptr", hwnd, "Ptr", hdc)
-	;Gdip_SaveBitmapToFile( ClipBitmap , "C:\Users\remco\Documents\autohotkey\autohotkey\screenshots\bitmaps\autoscreencap" ".bmp" , 255) ; Save the bitmap to file
-	;Gdip_DisposeImage( ClipBitmap ) ;Dispose of the bitmap to free memory.
-	Gdip_Shutdown( pToken ) ;Turn off gdip
-
-    my_picturefile := "C:\Users\remco\Documents\autohotkey\autohotkey\screenshots\bitmaps\"
-    ;FileInstall(my_picturefile "autoscreencap.bmp", my_picturefile "tempscreencap.bmp", 1)
-    if(set == 1){
-        MyGui['Pic'].Value := my_picturefile "cropped.bmp"
-    }else{
-        MyGui.Add("Picture", "vPic", my_picturefile "cropped.bmp")
-        set := 1
-    }
-    MyGui.Show("AutoSize NoActivate")
-
+    Gdip_Shutdown( pToken )
 
 	return
 }
