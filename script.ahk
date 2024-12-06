@@ -635,7 +635,7 @@ Resetcopyi(){
 #HotIf
 
 screenshot(){
-    my_picturefile := "C:\Users\remco\autohotkey\screenshots\bitmaps"
+    ;my_picturefile := "C:\Users\remco\autohotkey\screenshots\bitmaps"
 
     global mx1
     global my1
