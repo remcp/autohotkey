@@ -25,9 +25,13 @@ CoordMode("Pixel", "Screen")
 CoordMode("Mouse", "Window")
 
 
+:C1*SEK10:@GM::remcowouters2003@gmail.com
+:C1*SEK10:@BM::r.wouters@bm-holding.nl
+:C1*SEK10:@fontys::i514465@fontysict.nl
 
-:?*SEK10:@GM::remcowouters2003@gmail.com
-:?*SEK10:@BM::r.wouters@bm-holding.nl
+:C1*SEK10:@WWGM::Kareltje1{!}
+:C1*SEK10:@WWBM::V{!}ezeSchoen{$}29
+:C1*SEK10:@wwfontys::Knabfiggep6
 
 #HotIf WinActive("ahk_exe Ssms.exe")
 
@@ -96,6 +100,15 @@ CoordMode("Mouse", "Window")
     Reset()
 }
 ~m::{
+    Reset()
+}
+~Space::{
+    Reset()
+}
+~BackSpace::{
+    Reset()
+} 
+~Shift::{
     Reset()
 }
 ~$i::{
@@ -439,11 +452,11 @@ Resetcopyi(){
     Sleep(200)
     Sleep(2000)
     ControlSend("{Ctrl Down}",,"ahk_exe devenv.exe")
-    Sleep(20)
+    Sleep(100)
     ControlSend("{0}",,"ahk_exe devenv.exe")
-    Sleep(20)
+    Sleep(100)
     ControlSend("{Ctrl Down}",,"ahk_exe devenv.exe")
-    Sleep(20)
+    Sleep(100)
     ControlSend("{9}",,"ahk_exe devenv.exe")
     Sleep(20)
     Sleep(8000)
@@ -456,13 +469,13 @@ Resetcopyi(){
     Sleep(200)
     Sleep(2000)
     ControlSend("{Ctrl Down}",,"ahk_exe devenv.exe")
-    Sleep(20)
+    Sleep(100)
     ControlSend("{0}",,"ahk_exe devenv.exe")
-    Sleep(20)
+    Sleep(100)
     ControlSend("{Ctrl Down}",,"ahk_exe devenv.exe")
-    Sleep(20)
+    Sleep(100)
     ControlSend("{9}",,"ahk_exe devenv.exe")
-    Sleep(20)
+    Sleep(100)
     Sleep(8000)
     ;qfin
     ControlSend("{Ctrl Down}{Alt Down}{F3} {Ctrl Up}{Alt Up}",,"ahk_exe devenv.exe")
@@ -473,13 +486,13 @@ Resetcopyi(){
     Sleep(200)
     Sleep(2000)
     ControlSend("{Ctrl Down}",,"ahk_exe devenv.exe")
-    Sleep(20)
+    Sleep(100)
     ControlSend("{0}",,"ahk_exe devenv.exe")
-    Sleep(20)
+    Sleep(100)
     ControlSend("{Ctrl Down}",,"ahk_exe devenv.exe")
-    Sleep(20)
+    Sleep(100)
     ControlSend("{9}",,"ahk_exe devenv.exe")
-    Sleep(20)
+    Sleep(100)
     Sleep(8000)
     ;rvs
     ControlSend("{Ctrl Down}{Alt Down}{F3} {Ctrl Up}{Alt Up}",,"ahk_exe devenv.exe")
@@ -490,11 +503,11 @@ Resetcopyi(){
     Sleep(200)
     Sleep(2000)
     ControlSend("{Ctrl Down}",,"ahk_exe devenv.exe")
-    Sleep(20)
+    Sleep(100)
     ControlSend("{0}",,"ahk_exe devenv.exe")
-    Sleep(20)
+    Sleep(100)
     ControlSend("{Ctrl Down}",,"ahk_exe devenv.exe")
-    Sleep(20)
+    Sleep(100)
     ControlSend("{9}",,"ahk_exe devenv.exe")
     Sleep(20)
     Sleep(8000)
